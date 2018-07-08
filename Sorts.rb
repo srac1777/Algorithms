@@ -18,5 +18,31 @@ def bubble_sort(arr, &prc)
     arr
 end
 
-res = bubble_sort([4,1,2,6,3,5,5,7,8,8,8,8,5])
+# res = bubble_sort([4,1,2,6,3,5,5,7,8,8,8,8,5])
+# p res
+
+def optimized_bubble_sort(arr)
+    prc ||= Proc.new { |x,y| x <=> y }
+    lastSwap = arr.length-1;
+    i = 0
+    while i<arr.length
+        is_sorted = true;
+        currentSwap = -1;
+        j = 0 
+        while j < lastSwap
+            if prc.call(arr[j],arr[j+1]) > 0 
+                arr[j], arr[j+1] = arr[j+1], arr[j]
+                is_sorted = false;
+                currentSwap = j;
+            end
+            j+=1
+        end
+        return arr if is_sorted
+        lastSwap = currentSwap;
+        i+=1
+    end
+
+end
+
+res = optimized_bubble_sort([4,1,2,6,3,5,5,7,8,8,8,8,5])
 p res
