@@ -76,3 +76,17 @@ end
 
 # p merge_sort([2,1,3,57,57,3,2])
 
+def og_quick_sort(arr)
+    prc ||= Proc.new {|x,y| x <=> y}
+    return arr if arr.length <= 1
+    
+    pivot = arr.first
+    left = arr[1..-1].select { |el| prc.call(pivot, el) == 1 }
+    right = arr[1..-1].select { |el| prc.call(pivot, el) != 1 }
+
+    og_quick_sort(left) + [pivot] + og_quick_sort(right)
+end
+
+# p og_quick_sort([2,1,3,57,57,3,2,0,-1])
+
+
