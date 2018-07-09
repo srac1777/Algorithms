@@ -93,36 +93,75 @@ end
 #      [-1, 1, 3, 3, 2, 0, 4, 5, 6]
 #                           * =
 
-def in_place_quick_sort(arr, s_idx = 0, e_idx = arr.length)
-    # prc ||= Proc.new { |x,y| x <=> y }
-    return arr if arr.length <= 1
+# def in_place_quick_sort(arr, s_idx = 0, length = arr.length)
+#     prc ||= Proc.new { |x,y| x <=> y }
+#     return arr if arr.length <= 1
 
-    pivot = arr[s_idx...e_idx].first
-    boundary_idx = s_idx + 1
+#     boundary_idx = partition(arr, s_idx, length)
 
-    i = s_idx + 1
-    while i < e_idx
+
+#     leftlen = boundary_idx - s_idx
+#     rightlen = length - (boundary_idx + 1)
+
+#     in_place_quick_sort( arr, s_idx, leftlen )
+
+#     in_place_quick_sort( arr, boundary_idx + 1, rightlen )
+#     arr
+# end
+
+
+# def partition(arr, s_idx, length)
+#     prc ||= Proc.new { |i, j| i <=> j }
+    
+#     boundary_idx = s_idx
+#     pivot = arr[s_idx]
+#     i = s_idx + 1
+#     while i < s_idx + length
+#         # debugger
+#         if arr[i] >= pivot
+#             i += 1
+#         else
+#             arr[boundary_idx + 1], arr[i] = arr[i], arr[boundary_idx + 1]
+#             boundary_idx += 1
+#             i += 1
+#         end
+#     end
+#     arr[boundary_idx], arr[s_idx] = arr[s_idx], arr[boundary_idx]
+#     boundary_idx
+# end
+
+
+ def in_place_quick_sort(array, start = 0, length = array.length)
+    return array if length < 2
+
+    pivot_idx = partition(array, start, length)
+
+    leftlen = pivot_idx - start
+    rightlen = length - (leftlen + 1)
+    in_place_quick_sort(array, start, leftlen)
+    in_place_quick_sort(array, pivot_idx + 1, rightlen)
+
+    array
+  end
+
+  def partition(array, start, length)
+    pivot_idx = start
+    pivot = array[start]
+    i = start + 1
+    while i < start + length
         # debugger
-        if arr[i] >= pivot
+        if array[i] >= pivot
             i += 1
         else
-            arr[boundary_idx], arr[i] = arr[i], arr[boundary_idx]
-            boundary_idx += 1
-
+            array[pivot_idx + 1], array[i] = array[i], array[pivot_idx + 1]
+            pivot_idx += 1
             i += 1
         end
     end
-    arr[boundary_idx - 1], arr[0] = arr[0], arr[boundary_idx - 1]
+    array[start], array[pivot_idx] = array[pivot_idx], array[start]
 
-    # leftlen = boundary_idx - s_idx
-    # rightlen = arr[s_idx...e_idx].length - (boundary_idx + 1)
+    pivot_idx
+  end
 
-    # in_place_quick_sort( arr, s_idx, boundary_idx - 1 )
-
-    # in_place_quick_sort( arr, boundary_idx + 1, e_idx )
-    arr
-
-    
-end
 
  p in_place_quick_sort([4 , 1 , 3 , 2 , 5 , 6 , 3 , 7 , 0 , -1])
